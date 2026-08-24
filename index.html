@@ -671,7 +671,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            pointer-events: none;
+            -webkit-user-drag: none;
+            user-select: none;
         }
         
         .work-card:hover .work-swiper .swiper-track img {
@@ -2427,7 +2428,7 @@
                 if (!isDragging) return;
                 const delta = x - startX;
                 currentTranslate = delta;
-                if (Math.abs(delta) > 6) wasDragged = true;
+                if (Math.abs(delta) > 10) wasDragged = true;
                 track.style.transform = `translateX(calc(-${index * 100}% + ${delta}px))`;
             }
 
