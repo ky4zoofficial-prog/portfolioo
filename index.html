@@ -1,1 +1,2210 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- =========================================================
+       KIM RAINIER CLEOFE — PERSONAL PORTFOLIO
+       One-file portfolio: HTML + CSS + Vanilla JavaScript
+       ========================================================= -->
+
+    <title>Kim Rainier Cleofe — Portfolio</title>
+    <meta name="description" content="Personal portfolio of Kim Rainier Cleofe, a Computer Science student and graphic designer." />
+
+    <!-- Optional font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* =========================================================
+       1. VARIABLES
+       Change these values to customize your website colors.
+       ========================================================= */
+        
+         :root {
+            --bg: #f5f5f3;
+            --bg-secondary: #ffffff;
+            --text: #111111;
+            --muted: #707070;
+            --border: #d9d9d5;
+            --card: #ffffff;
+            --accent: #111111;
+            --accent-text: #ffffff;
+            --grid: rgba(0, 0, 0, 0.055);
+            --shadow: rgba(0, 0, 0, 0.08);
+            --max-width: 1280px;
+            --nav-height: 76px;
+            --radius: 18px;
+        }
+        
+        body.dark {
+            --bg: #0b0b0b;
+            --bg-secondary: #111111;
+            --text: #f4f4f1;
+            --muted: #999999;
+            --border: #292929;
+            --card: #141414;
+            --accent: #f4f4f1;
+            --accent-text: #0b0b0b;
+            --grid: rgba(255, 255, 255, 0.045);
+            --shadow: rgba(0, 0, 0, 0.35);
+        }
+        /* =========================================================
+       2. RESET
+       ========================================================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+        
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.35s ease, color 0.35s ease;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        button {
+            font: inherit;
+        }
+        
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        
+         ::selection {
+            background: var(--text);
+            color: var(--bg);
+        }
+        /* =========================================================
+       3. BACKGROUND GRID
+       ========================================================= */
+        
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            pointer-events: none;
+            background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 55px 55px;
+            mask-image: linear-gradient( to bottom, black 0%, rgba(0, 0, 0, 0.45) 55%, transparent 100%);
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -4;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+        }
+        /* =========================================================
+       4. DECORATIVE SQUARES
+       ========================================================= */
+        
+        .square {
+            position: fixed;
+            pointer-events: none;
+            border: 1px solid var(--border);
+            z-index: -2;
+            transition: border-color 0.35s ease;
+        }
+        
+        .square.one {
+            width: 100px;
+            height: 100px;
+            top: 18%;
+            left: 4%;
+            transform: rotate(12deg);
+            animation: floatOne 7s ease-in-out infinite;
+        }
+        
+        .square.two {
+            width: 65px;
+            height: 65px;
+            right: 7%;
+            top: 28%;
+            transform: rotate(-18deg);
+            animation: floatTwo 8s ease-in-out infinite;
+        }
+        
+        .square.three {
+            width: 140px;
+            height: 140px;
+            right: 3%;
+            bottom: 9%;
+            transform: rotate(28deg);
+            opacity: 0.45;
+            animation: floatOne 10s ease-in-out infinite reverse;
+        }
+        
+        @keyframes floatOne {
+            0%,
+            100% {
+                translate: 0 0;
+            }
+            50% {
+                translate: 0 -18px;
+            }
+        }
+        
+        @keyframes floatTwo {
+            0%,
+            100% {
+                translate: 0 0;
+            }
+            50% {
+                translate: 10px 12px;
+            }
+        }
+        /* =========================================================
+       5. UTILITY
+       ========================================================= */
+        
+        .container {
+            width: min(100% - 40px, var(--max-width));
+            margin-inline: auto;
+        }
+        
+        .section {
+            padding: 130px 0;
+            position: relative;
+        }
+        
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            color: var(--muted);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        .section-label::before {
+            content: "";
+            width: 28px;
+            height: 1px;
+            background: var(--text);
+        }
+        
+        .section-title {
+            max-width: 800px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2.5rem, 7vw, 6rem);
+            line-height: 0.95;
+            letter-spacing: -0.06em;
+            text-transform: uppercase;
+        }
+        
+        .muted {
+            color: var(--muted);
+        }
+        /* =========================================================
+       6. NAVIGATION
+       ========================================================= */
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+            background: color-mix(in srgb, var(--bg) 82%, transparent);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            transition: 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            border-bottom-color: var(--border);
+        }
+        
+        .nav-inner {
+            height: 100%;
+            width: min(100% - 40px, var(--max-width));
+            margin-inline: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.04em;
+        }
+        
+        .logo span {
+            opacity: 0.4;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            position: relative;
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: color 0.25s ease;
+        }
+        
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -7px;
+            width: 100%;
+            height: 1px;
+            background: var(--text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+        
+        .theme-toggle,
+        .menu-toggle {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text);
+            border-radius: 50%;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: 0.25s ease;
+        }
+        
+        .theme-toggle:hover,
+        .menu-toggle:hover {
+            background: var(--text);
+            color: var(--bg);
+            transform: rotate(8deg);
+        }
+        
+        .theme-toggle span {
+            font-size: 1rem;
+        }
+        
+        .menu-toggle {
+            display: none;
+        }
+        /* =========================================================
+       7. HERO
+       ========================================================= */
+        
+        .hero {
+            min-height: 100svh;
+            padding-top: calc(var(--nav-height) + 80px);
+            padding-bottom: 70px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+            align-items: center;
+            gap: 70px;
+        }
+        
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            border: 1px solid var(--border);
+            padding: 8px 13px;
+            border-radius: 100px;
+            color: var(--muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+        
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #42a85f;
+            box-shadow: 0 0 0 4px color-mix(in srgb, #42a85f 15%, transparent);
+        }
+        
+        .hero h1 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(3.7rem, 9.2vw, 9.4rem);
+            line-height: 0.82;
+            letter-spacing: -0.075em;
+            text-transform: uppercase;
+            max-width: 1050px;
+        }
+        
+        .hero h1 .outline {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
+        }
+        
+        .hero-description {
+            max-width: 580px;
+            margin-top: 32px;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: var(--muted);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin-top: 34px;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 48px;
+            padding: 0 20px;
+            border: 1px solid var(--text);
+            background: var(--text);
+            color: var(--bg);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            transition: 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-4px);
+            box-shadow: 7px 7px 0 var(--border);
+        }
+        
+        .button.secondary {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border);
+        }
+        
+        .button.secondary:hover {
+            border-color: var(--text);
+            box-shadow: none;
+        }
+        
+        .hero-visual {
+            position: relative;
+            min-height: 480px;
+            display: grid;
+            place-items: center;
+        }
+        
+        .design-frame {
+            width: min(100%, 420px);
+            aspect-ratio: 0.86;
+            border: 1px solid var(--text);
+            padding: 16px;
+            position: relative;
+            transform: rotate(3deg);
+            background: var(--bg-secondary);
+            box-shadow: 18px 18px 0 var(--text);
+        }
+        
+        .design-frame::before {
+            content: "";
+            position: absolute;
+            width: 95px;
+            height: 95px;
+            border: 1px solid var(--text);
+            top: -35px;
+            left: -35px;
+            background: var(--bg);
+            z-index: -1;
+        }
+        
+        .design-canvas {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 28px 28px;
+            border: 1px solid var(--border);
+        }
+        
+        .canvas-circle {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--text);
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: circleMove 6s ease-in-out infinite;
+        }
+        
+        .canvas-square {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 1px solid var(--text);
+            right: 7%;
+            bottom: 12%;
+            transform: rotate(22deg);
+            animation: squareRotate 9s linear infinite;
+        }
+        
+        .canvas-text {
+            position: absolute;
+            left: 22px;
+            bottom: 20px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            font-weight: 700;
+            line-height: 0.85;
+            letter-spacing: -0.07em;
+            text-transform: uppercase;
+        }
+        
+        .canvas-number {
+            position: absolute;
+            right: 20px;
+            top: 18px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        @keyframes circleMove {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+        }
+        
+        @keyframes squareRotate {
+            from {
+                transform: rotate(22deg);
+            }
+            to {
+                transform: rotate(382deg);
+            }
+        }
+        /* =========================================================
+       8. ABOUT
+       ========================================================= */
+        
+        .about-layout {
+            display: grid;
+            grid-template-columns: 0.7fr 1.3fr;
+            gap: 80px;
+            margin-top: 65px;
+        }
+        
+        .about-copy {
+            font-size: clamp(1.25rem, 2.2vw, 2rem);
+            line-height: 1.35;
+            letter-spacing: -0.025em;
+        }
+        
+        .about-copy strong {
+            color: var(--text);
+        }
+        
+        .learning-box {
+            margin-top: 45px;
+            border-top: 1px solid var(--border);
+            padding-top: 22px;
+        }
+        
+        .small-heading {
+            color: var(--muted);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 17px;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            transition: 0.25s ease;
+        }
+        
+        .tag:hover {
+            border-color: var(--text);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+        /* =========================================================
+       9. DESIGN WORK
+       ========================================================= */
+        
+        .section-heading-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .section-heading-row p {
+            max-width: 400px;
+            color: var(--muted);
+        }
+        
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+        
+        .work-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        
+        .work-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--text);
+            box-shadow: 12px 12px 0 var(--border);
+        }
+        
+        .work-image {
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            background: #d8d8d5;
+            position: relative;
+        }
+        
+        .work-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(.2, .7, .2, 1);
+        }
+        
+        .work-card:hover .work-image img {
+            transform: scale(1.06);
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(45deg, transparent 48%, rgba(0, 0, 0, .1) 49%, transparent 50%), linear-gradient(-45deg, transparent 48%, rgba(0, 0, 0, .1) 49%, transparent 50%);
+            background-size: 30px 30px;
+            color: #555;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        
+        .work-content {
+            padding: 24px;
+        }
+        
+        .work-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .work-number {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-weight: 700;
+        }
+        
+        .work-category {
+            font-size: 0.68rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .work-content h3 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(1.4rem, 2.5vw, 2rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 12px;
+        }
+        
+        .work-content p {
+            color: var(--muted);
+            max-width: 520px;
+            font-size: 0.9rem;
+        }
+        
+        .work-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        
+        .work-link span {
+            transition: transform 0.25s ease;
+        }
+        
+        .work-link:hover span {
+            transform: translateX(5px);
+        }
+        /* =========================================================
+       10. EXPERIENCE
+       ========================================================= */
+        
+        .experience-list {
+            margin-top: 65px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .experience-item {
+            display: grid;
+            grid-template-columns: 0.35fr 0.8fr 1.2fr;
+            gap: 40px;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: start;
+            transition: padding 0.3s ease;
+        }
+        
+        .experience-item:hover {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        
+        .experience-date {
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+        
+        .experience-role {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+        
+        .experience-company {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+        
+        .experience-description {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+        /* =========================================================
+       11. SKILLS
+       ========================================================= */
+        
+        .skills-grid {
+            margin-top: 65px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        
+        .skill-box {
+            border: 1px solid var(--border);
+            padding: 28px;
+            min-height: 290px;
+            background: var(--card);
+            transition: 0.3s ease;
+        }
+        
+        .skill-box:hover {
+            border-color: var(--text);
+            transform: translateY(-5px);
+        }
+        
+        .skill-number {
+            color: var(--muted);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        
+        .skill-box h3 {
+            margin-top: 65px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.65rem;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+        
+        .skill-items {
+            list-style: none;
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+        
+        .skill-items li {
+            border-top: 1px solid var(--border);
+            padding: 7px 0;
+        }
+        /* =========================================================
+       12. LEARNING JOURNEY
+       ========================================================= */
+        
+        .timeline {
+            margin-top: 70px;
+            position: relative;
+            border-left: 1px solid var(--border);
+            margin-left: 20px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding: 0 0 55px 50px;
+        }
+        
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -5px;
+            top: 4px;
+            width: 9px;
+            height: 9px;
+            background: var(--text);
+            border-radius: 50%;
+        }
+        
+        .timeline-year {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2rem, 4vw, 3.6rem);
+            font-weight: 600;
+            line-height: 1;
+            letter-spacing: -0.06em;
+        }
+        
+        .timeline-text {
+            max-width: 650px;
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        /* =========================================================
+       13. CURRENTLY BUILDING
+       ========================================================= */
+        
+        .building-grid {
+            margin-top: 65px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+        
+        .building-card {
+            border: 1px solid var(--border);
+            padding: 30px;
+            min-height: 250px;
+            background: var(--card);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+        
+        .building-card::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid var(--border);
+            right: -40px;
+            bottom: -40px;
+            transform: rotate(25deg);
+            transition: 0.4s ease;
+        }
+        
+        .building-card:hover {
+            border-color: var(--text);
+            transform: translateY(-5px);
+        }
+        
+        .building-card:hover::after {
+            transform: rotate(45deg) scale(1.2);
+        }
+        
+        .building-status {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        
+        .building-card h3 {
+            margin-top: 65px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: -0.05em;
+        }
+        
+        .building-card p {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            max-width: 400px;
+        }
+        /* =========================================================
+       14. CONTACT
+       ========================================================= */
+        
+        .contact {
+            padding-bottom: 90px;
+        }
+        
+        .contact-box {
+            margin-top: 65px;
+            border: 1px solid var(--text);
+            padding: clamp(28px, 6vw, 70px);
+            background: var(--card);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-box::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: -80px;
+            top: -80px;
+            border: 1px solid var(--border);
+            transform: rotate(25deg);
+        }
+        
+        .contact-box h3 {
+            max-width: 850px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(2.5rem, 6vw, 6rem);
+            line-height: 0.9;
+            letter-spacing: -0.07em;
+            text-transform: uppercase;
+        }
+        
+        .contact-box p {
+            max-width: 520px;
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        
+        .contact-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 35px;
+        }
+        
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 45px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .social-links a {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.25s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--text);
+        }
+        /* =========================================================
+       15. FOOTER
+       ========================================================= */
+        
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+        }
+        
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .footer-name {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+        
+        .footer-text {
+            color: var(--muted);
+            font-size: 0.75rem;
+        }
+        /* =========================================================
+       16. SCROLL REVEAL
+       ========================================================= */
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* =========================================================
+       17. MOBILE
+       ========================================================= */
+        
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-visual {
+                min-height: 400px;
+                margin-top: 25px;
+            }
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+            .experience-item {
+                grid-template-columns: 0.25fr 0.75fr;
+            }
+            .experience-description {
+                grid-column: 2;
+            }
+            .skills-grid,
+            .building-grid {
+                grid-template-columns: 1fr;
+            }
+            .skill-box,
+            .building-card {
+                min-height: 230px;
+            }
+        }
+        
+        @media (max-width: 720px) {
+             :root {
+                --nav-height: 68px;
+            }
+            .container,
+            .nav-inner {
+                width: min(100% - 28px, var(--max-width));
+            }
+            .section {
+                padding: 90px 0;
+            }
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                left: 14px;
+                right: 14px;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 10px;
+                background: var(--card);
+                border: 1px solid var(--border);
+                box-shadow: 0 15px 40px var(--shadow);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: 0.25s ease;
+            }
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            .nav-links li a {
+                display: block;
+                padding: 13px;
+            }
+            .nav-links a::after {
+                display: none;
+            }
+            .menu-toggle {
+                display: grid;
+            }
+            .hero {
+                padding-top: calc(var(--nav-height) + 55px);
+            }
+            .hero-grid {
+                gap: 25px;
+            }
+            .hero h1 {
+                font-size: clamp(3.2rem, 17vw, 6rem);
+            }
+            .hero-visual {
+                min-height: 350px;
+            }
+            .design-frame {
+                width: min(82vw, 370px);
+                box-shadow: 11px 11px 0 var(--text);
+            }
+            .section-heading-row {
+                display: block;
+                margin-bottom: 40px;
+            }
+            .section-heading-row p {
+                margin-top: 22px;
+            }
+            .work-grid {
+                grid-template-columns: 1fr;
+            }
+            .experience-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .experience-description {
+                grid-column: auto;
+            }
+            .timeline {
+                margin-left: 7px;
+            }
+            .timeline-item {
+                padding-left: 35px;
+            }
+            .contact-box {
+                margin-top: 45px;
+            }
+            .footer-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 420px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+            .button {
+                width: 100%;
+            }
+            .work-content {
+                padding: 20px;
+            }
+            .social-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+        /* =========================================================
+       18. REDUCED MOTION
+       ========================================================= */
+        
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Decorative background elements -->
+    <div class="square one"></div>
+    <div class="square two"></div>
+    <div class="square three"></div>
+
+    <!-- =========================================================
+       NAVIGATION
+       ========================================================= -->
+
+    <header class="navbar" id="navbar">
+        <div class="nav-inner">
+
+            <!-- CHANGE YOUR NAME HERE -->
+            <a href="#home" class="logo">
+        KIM<span>.</span>
+      </a>
+
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#work">Works</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+
+                <!-- Theme switcher -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <span id="themeIcon">☾</span>
+        </button>
+
+                <!-- Mobile menu -->
+                <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">
+          ☰
+        </button>
+
+            </div>
+
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- =======================================================
+         HERO
+         ======================================================= -->
+
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+
+                <div class="hero-content reveal">
+
+                    <div class="eyebrow">
+                        <span class="eyebrow-dot"></span> First-Year CS Student • Graphic Designer
+                    </div>
+
+                    <!-- CHANGE YOUR NAME HERE -->
+                    <h1>
+                        Kim<br />
+                        <span class="outline">Rainier</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Learning code, creating visuals, and building my skills one project at a time.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <a href="#work" class="button">
+              VIEW MY WORK →
+            </a>
+
+                        <a href="#about" class="button secondary">
+              ABOUT ME
+            </a>
+                    </div>
+
+                </div>
+
+
+                <!-- Graphic-design-inspired visual -->
+
+                <div class="hero-visual reveal">
+
+                    <div class="design-frame">
+
+                        <div class="design-canvas">
+
+                            <div class="canvas-number">
+                                01 / 26
+                            </div>
+
+                            <div class="canvas-circle"></div>
+
+                            <div class="canvas-square"></div>
+
+                            <div class="canvas-text">
+                                CREATE<br /> & LEARN
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- =======================================================
+         ABOUT
+         ======================================================= -->
+
+        <section class="section" id="about">
+
+            <div class="container">
+
+                <div class="section-label reveal">
+                    01 — About
+                </div>
+
+                <h2 class="section-title reveal">
+                    About Me
+                </h2>
+
+
+                <div class="about-layout">
+
+                    <div class="reveal">
+                        <div class="small-heading">
+                            A little introduction
+                        </div>
+
+                        <p class="muted">
+                            Student. Designer. Learner.
+                        </p>
+                    </div>
+
+
+                    <div class="reveal">
+
+                        <p class="about-copy">
+                            I am a <strong>first-year Computer Science student</strong> who enjoys combining technology and creativity. My strongest interest right now is
+                            <strong>Graphic Designing</strong>, where I enjoy creating visual content, experimenting with layouts, and learning different editing techniques.
+                            <br /><br /> At the same time, I am beginning my journey into programming and web development. I am still learning, but I enjoy discovering new things and improving little by little.
+                        </p>
+
+
+                        <div class="learning-box">
+
+                            <div class="small-heading">
+                                Currently Learning
+                            </div>
+
+                            <div class="tag-list">
+                                <span class="tag">HTML</span>
+                                <span class="tag">CSS</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Basic Programming</span>
+                                <span class="tag">Web Design</span>
+                                <span class="tag">UI Design</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =======================================================
+         DESIGN WORK
+         ======================================================= -->
+
+        <section class="section" id="work">
+
+            <div class="container">
+
+                <div class="section-heading-row">
+
+                    <div>
+                        <div class="section-label reveal">
+                            02 — Selected Work
+                        </div>
+
+                        <h2 class="section-title reveal">
+                            Design Work
+                        </h2>
+                    </div>
+
+                    <p class="reveal">
+                        A collection of graphic design practice, creative experiments, and visual work. Replace the sample images below with your own designs.
+                    </p>
+
+                </div>
+
+
+                <div class="work-grid">
+
+                    <!-- =================================================
+               DESIGN PROJECT 01
+               Replace images/design-01.jpg with your image.
+               ================================================= -->
+
+                    <article class="work-card reveal">
+
+                        <div class="work-image">
+
+                            <!--
+                IMAGE INSTRUCTIONS:
+                Put your image inside:
+
+                images/design-01.jpg
+              -->
+
+                            <img src="images/design-01.jpg" alt="Social media graphics project" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+
+                            <div class="image-placeholder" style="display:none;">
+                                Add Design 01
+                            </div>
+
+                        </div>
+
+                        <div class="work-content">
+
+                            <div class="work-top">
+                                <span class="work-number">01</span>
+                                <span class="work-category">Social Media</span>
+                            </div>
+
+                            <h3>
+                                Social Media Graphics
+                            </h3>
+
+                            <p>
+                                Social media layouts and promotional graphics created for practice and personal projects.
+                            </p>
+
+                            <a href="#" class="work-link">
+                VIEW PROJECT <span>↗</span>
+              </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- DESIGN PROJECT 02 -->
+
+                    <article class="work-card reveal">
+
+                        <div class="work-image">
+
+                            <!-- Replace with images/design-02.jpg -->
+
+                            <img src="images/design-02.jpg" alt="Esports graphics project" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+
+                            <div class="image-placeholder" style="display:none;">
+                                Add Design 02
+                            </div>
+
+                        </div>
+
+                        <div class="work-content">
+
+                            <div class="work-top">
+                                <span class="work-number">02</span>
+                                <span class="work-category">Esports</span>
+                            </div>
+
+                            <h3>
+                                Esports Graphics
+                            </h3>
+
+                            <p>
+                                Gaming and esports-inspired graphics focused on typography, composition, and visual impact.
+                            </p>
+
+                            <a href="#" class="work-link">
+                VIEW PROJECT <span>↗</span>
+              </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- DESIGN PROJECT 03 -->
+
+                    <article class="work-card reveal">
+
+                        <div class="work-image">
+
+                            <!-- Replace with images/design-03.jpg -->
+
+                            <img src="images/design-03.jpg" alt="Poster design project" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+
+                            <div class="image-placeholder" style="display:none;">
+                                Add Design 03
+                            </div>
+
+                        </div>
+
+                        <div class="work-content">
+
+                            <div class="work-top">
+                                <span class="work-number">03</span>
+                                <span class="work-category">Poster Design</span>
+                            </div>
+
+                            <h3>
+                                Poster Designs
+                            </h3>
+
+                            <p>
+                                Poster concepts exploring different layouts, typography, and visual styles.
+                            </p>
+
+                            <a href="#" class="work-link">
+                VIEW PROJECT <span>↗</span>
+              </a>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- DESIGN PROJECT 04 -->
+
+                    <article class="work-card reveal">
+
+                        <div class="work-image">
+
+                            <!-- Replace with images/design-04.jpg -->
+
+                            <img src="images/design-04.jpg" alt="Creative experiments project" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+
+                            <div class="image-placeholder" style="display:none;">
+                                Add Design 04
+                            </div>
+
+                        </div>
+
+                        <div class="work-content">
+
+                            <div class="work-top">
+                                <span class="work-number">04</span>
+                                <span class="work-category">Experiments</span>
+                            </div>
+
+                            <h3>
+                                Creative Experiments
+                            </h3>
+
+                            <p>
+                                Personal design experiments created while learning new editing techniques.
+                            </p>
+
+                            <a href="#" class="work-link">
+                VIEW PROJECT <span>↗</span>
+              </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =======================================================
+         EXPERIENCE
+         ======================================================= -->
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="section-label reveal">
+                    03 — Experience
+                </div>
+
+                <h2 class="section-title reveal">
+                    Experience
+                </h2>
+
+
+                <div class="experience-list">
+
+                    <div class="experience-item reveal">
+
+                        <div class="experience-date">
+                            Experience
+                        </div>
+
+                        <div>
+                            <div class="experience-role">
+                                Graphic Designer
+                            </div>
+
+                            <div class="experience-company">
+                                Knn Esports
+                            </div>
+                        </div>
+
+                        <p class="experience-description">
+                            Former MDL S6 Team Graphics Designer. Created graphic content in an esports environment while practicing visual composition, typography, and creative editing.
+                        </p>
+
+                    </div>
+
+
+                    <div class="experience-item reveal">
+
+                        <div class="experience-date">
+                            2026 — Present
+                        </div>
+
+                        <div>
+                            <div class="experience-role">
+                                Currently Learning
+                            </div>
+
+                            <div class="experience-company">
+                                Computer Science
+                            </div>
+                        </div>
+
+                        <p class="experience-description">
+                            First-year Computer Science student currently building foundational knowledge in programming, web development, and computer science while continuing to practice graphic design.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =======================================================
+         SKILLS
+         ======================================================= -->
+
+        <section class="section" id="skills">
+
+            <div class="container">
+
+                <div class="section-label reveal">
+                    04 — Skills
+                </div>
+
+                <h2 class="section-title reveal">
+                    What I Know
+                </h2>
+
+
+                <div class="skills-grid">
+
+                    <!-- Design -->
+
+                    <div class="skill-box reveal">
+
+                        <span class="skill-number">
+              01 / DESIGN
+            </span>
+
+                        <h3>
+                            Design
+                        </h3>
+
+                        <ul class="skill-items">
+                            <li>Graphic Designing</li>
+                            <li>Photo Editing</li>
+                            <li>Typography</li>
+                            <li>Layout Design</li>
+                            <li>Visual Composition</li>
+                        </ul>
+
+                    </div>
+
+
+                    <!-- Learning -->
+
+                    <div class="skill-box reveal">
+
+                        <span class="skill-number">
+              02 / LEARNING
+            </span>
+
+                        <h3>
+                            Technology
+                        </h3>
+
+                        <ul class="skill-items">
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JavaScript</li>
+                            <li>Basic Programming</li>
+                            <li>Web Design</li>
+                        </ul>
+
+                    </div>
+
+
+                    <!-- Personal -->
+
+                    <div class="skill-box reveal">
+
+                        <span class="skill-number">
+              03 / PERSONAL
+            </span>
+
+                        <h3>
+                            Strengths
+                        </h3>
+
+                        <ul class="skill-items">
+                            <li>Creativity</li>
+                            <li>Time Management</li>
+                            <li>Patience</li>
+                            <li>Open-mindedness</li>
+                            <li>Willingness to Learn</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =======================================================
+         LEARNING JOURNEY
+         ======================================================= -->
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="section-label reveal">
+                    05 — My Story
+                </div>
+
+                <h2 class="section-title reveal">
+                    My Learning<br /> Journey
+                </h2>
+
+
+                <div class="timeline">
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-year">
+                            2024
+                        </div>
+
+                        <p class="timeline-text">
+                            Started developing an interest in Graphic Designing and began practicing different editing techniques.
+                        </p>
+
+                    </div>
+
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-year">
+                            2025
+                        </div>
+
+                        <p class="timeline-text">
+                            Continued practicing graphic design and creating visual content while exploring different creative styles.
+                        </p>
+
+                    </div>
+
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-year">
+                            2026
+                        </div>
+
+                        <p class="timeline-text">
+                            Started my Computer Science journey and began learning programming and web development.
+                        </p>
+
+                    </div>
+
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-dot"></div>
+
+                        <div class="timeline-year">
+                            NOW
+                        </div>
+
+                        <p class="timeline-text">
+                            Learning how to combine design, technology, and creativity while building my first Computer Science projects.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =======================================================
+         CURRENTLY BUILDING
+         ======================================================= -->
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="section-heading-row">
+
+                    <div>
+                        <div class="section-label reveal">
+                            06 — In Progress
+                        </div>
+
+                        <h2 class="section-title reveal">
+                            Currently<br /> Building
+                        </h2>
+                    </div>
+
+                    <p class="reveal">
+                        I am still at the beginning of my Computer Science journey, so these are learning projects rather than professional software projects.
+                    </p>
+
+                </div>
+
+
+                <div class="building-grid">
+
+                    <article class="building-card reveal">
+
+                        <span class="building-status">
+              Learning Project
+            </span>
+
+                        <h3>
+                            Portfolio Website
+                        </h3>
+
+                        <p>
+                            A personal website created while learning HTML, CSS, JavaScript, and modern web design.
+                        </p>
+
+                    </article>
+
+
+                    <article class="building-card reveal">
+
+                        <span class="building-status">
+              Design Project
+            </span>
+
+                        <h3>
+                            Design Gallery
+                        </h3>
+
+                        <p>
+                            A collection of graphic design works and creative experiments.
+                        </p>
+
+                    </article>
+
+
+                    <article class="building-card reveal">
+
+                        <span class="building-status">
+              Future
+            </span>
+
+                        <h3>
+                            Future Projects
+                        </h3>
+
+                        <p>
+                            A space for future Computer Science projects as I continue learning and improving.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =======================================================
+         CONTACT
+         ======================================================= -->
+
+        <section class="section contact" id="contact">
+
+            <div class="container">
+
+                <div class="section-label reveal">
+                    07 — Contact
+                </div>
+
+                <h2 class="section-title reveal">
+                    Let's Connect
+                </h2>
+
+
+                <div class="contact-box reveal">
+
+                    <h3>
+                        Let's create<br /> something.
+                    </h3>
+
+                    <p>
+                        Interested in design, technology, or just want to say hello? Feel free to reach out.
+                    </p>
+
+
+                    <div class="contact-actions">
+
+                        <!--
+              CHANGE YOUR EMAIL HERE
+              Example:
+              mailto:yourname@gmail.com
+            -->
+
+                        <a href="mailto:your.email@example.com" class="button">
+              SEND A MESSAGE →
+            </a>
+
+                    </div>
+
+
+                    <!-- =================================================
+               SOCIAL LINKS
+               CHANGE THE # TO YOUR REAL PROFILE LINKS
+               ================================================= -->
+
+                    <div class="social-links">
+
+                        <!-- GitHub -->
+                        <a href="#" target="_blank" rel="noopener noreferrer">
+              GitHub ↗
+            </a>
+
+                        <!-- Facebook -->
+                        <a href="#" target="_blank" rel="noopener noreferrer">
+              Facebook ↗
+            </a>
+
+                        <!-- Instagram -->
+                        <a href="#" target="_blank" rel="noopener noreferrer">
+              Instagram ↗
+            </a>
+
+                        <!-- Email -->
+                        <a href="mailto:your.email@example.com">
+              Email ↗
+            </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+
+    <footer>
+
+        <div class="container footer-inner">
+
+            <div>
+                <!-- CHANGE YOUR NAME HERE -->
+                <div class="footer-name">
+                    Kim Rainier Cleofe
+                </div>
+
+                <div class="footer-text">
+                    Computer Science Student & Graphic Designer
+                </div>
+            </div>
+
+            <div class="footer-text">
+                Learning. Creating. Improving.
+                <br /> © 2026 Kim Rainier Cleofe
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
+    <script>
+        /* =========================================================
+               THEME SWITCHER
+               Saves the selected theme using localStorage.
+               ========================================================= */
+
+        const themeToggle = document.getElementById("themeToggle");
+        const themeIcon = document.getElementById("themeIcon");
+
+        const savedTheme = localStorage.getItem("portfolio-theme");
+
+        if (savedTheme === "dark") {
+            document.body.classList.add("dark");
+            themeIcon.textContent = "☀";
+        }
+
+        themeToggle.addEventListener("click", () => {
+
+            document.body.classList.toggle("dark");
+
+            const isDark = document.body.classList.contains("dark");
+
+            localStorage.setItem(
+                "portfolio-theme",
+                isDark ? "dark" : "light"
+            );
+
+            themeIcon.textContent = isDark ? "☀" : "☾";
+
+        });
+
+
+        /* =========================================================
+           MOBILE NAVIGATION
+           ========================================================= */
+
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", () => {
+
+            navLinks.classList.toggle("active");
+
+            const isOpen = navLinks.classList.contains("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen
+            );
+
+            menuToggle.textContent = isOpen ? "×" : "☰";
+
+        });
+
+
+        /* Close mobile menu when a link is clicked */
+
+        document.querySelectorAll(".nav-links a").forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                navLinks.classList.remove("active");
+
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                menuToggle.textContent = "☰";
+
+            });
+
+        });
+
+
+        /* =========================================================
+           NAVBAR SCROLL EFFECT
+           ========================================================= */
+
+        const navbar = document.getElementById("navbar");
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY > 20) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+
+        });
+
+
+        /* =========================================================
+           SCROLL REVEAL ANIMATION
+           ========================================================= */
+
+        const revealElements =
+            document.querySelectorAll(".reveal");
+
+        const revealObserver =
+            new IntersectionObserver(
+                (entries, observer) => {
+
+                    entries.forEach(entry => {
+
+                        if (entry.isIntersecting) {
+
+                            entry.target.classList.add("visible");
+
+                            observer.unobserve(entry.target);
+
+                        }
+
+                    });
+
+                }, {
+                    threshold: 0.12
+                }
+            );
+
+
+        revealElements.forEach(element => {
+            revealObserver.observe(element);
+        });
+
+
+        /* =========================================================
+           SMOOTH INTERNAL LINKS
+           ========================================================= */
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+
+            anchor.addEventListener("click", function(event) {
+
+                const targetId =
+                    this.getAttribute("href");
+
+                if (
+                    targetId &&
+                    targetId !== "#"
+                ) {
+
+                    const target =
+                        document.querySelector(targetId);
+
+                    if (target) {
+
+                        event.preventDefault();
+
+                        target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    }
+
+                }
+
+            });
+
+        });
+
+
+        /* =========================================================
+           CURRENT YEAR
+           Automatically updates the copyright year.
+           ========================================================= */
+
+        const yearElements =
+            document.querySelectorAll("[data-year]");
+
+        yearElements.forEach(element => {
+            element.textContent =
+                new Date().getFullYear();
+        });
+    </script>
+
+</body>
+
+</html>
