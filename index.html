@@ -1349,10 +1349,124 @@
         .lightbox-close:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+        /* =========================================================
+       20. PRELOADER
+       Full-screen welcome/loading screen shown briefly on
+       first visit, then wipes away to reveal the site.
+       ========================================================= */
+        
+        .preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.7s cubic-bezier(.76, 0, .24, 1), visibility 0.7s;
+        }
+        
+        .preloader.hidden {
+            transform: translateY(-100%);
+            visibility: hidden;
+        }
+        
+        .preloader-logo {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.2rem, 7vw, 4rem);
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            display: flex;
+            gap: 4px;
+            overflow: hidden;
+        }
+        
+        .preloader-logo span {
+            display: inline-block;
+            transform: translateY(110%);
+            animation: preloaderLetterUp 0.7s cubic-bezier(.2, .8, .2, 1) forwards;
+        }
+        
+        @keyframes preloaderLetterUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+        
+        .preloader-sub {
+            margin-top: 18px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            opacity: 0;
+            animation: preloaderFadeIn 0.6s ease forwards;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes preloaderFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .preloader-bar-track {
+            margin-top: 34px;
+            width: 220px;
+            max-width: 60vw;
+            height: 2px;
+            background: var(--border);
+            opacity: 0;
+            animation: preloaderFadeIn 0.6s ease forwards;
+            animation-delay: 0.55s;
+        }
+        
+        .preloader-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--text);
+            transition: width 0.15s linear;
+        }
+        
+        .preloader-count {
+            margin-top: 14px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--muted);
+            opacity: 0;
+            animation: preloaderFadeIn 0.6s ease forwards;
+            animation-delay: 0.55s;
+        }
+        
+        body.loading {
+            overflow: hidden;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .preloader {
+                display: none;
+            }
+        }
     </style>
 </head>
 
-<body>
+<body class="loading">
+
+    <!-- Welcome / loading screen -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo" id="preloaderLogo">
+            <span style="animation-delay:0.05s">W</span><span style="animation-delay:0.08s">e</span><span style="animation-delay:0.11s">l</span><span style="animation-delay:0.14s">c</span><span style="animation-delay:0.17s">o</span><span style="animation-delay:0.20s">m</span><span style="animation-delay:0.23s">e</span>
+        </div>
+        <div class="preloader-sub">Portfolio Loading</div>
+        <div class="preloader-bar-track">
+            <div class="preloader-bar-fill" id="preloaderBarFill"></div>
+        </div>
+        <div class="preloader-count" id="preloaderCount">0%</div>
+    </div>
 
     <!-- Decorative background elements -->
     <div class="square one"></div>
@@ -2117,7 +2231,7 @@
               mailto:yourname@gmail.com
             -->
 
-                        <a href="mailto:your.email@example.com" class="button">
+                        <a href="https://www.facebook.com/kim.rainier.94/" target="_blank" rel="noopener noreferrer" class="button">
               SEND A MESSAGE →
             </a>
 
@@ -2132,22 +2246,22 @@
                     <div class="social-links">
 
                         <!-- GitHub -->
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/ky4zoofficial-prog" target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
 
                         <!-- Facebook -->
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.facebook.com/kim.rainier.94/" target="_blank" rel="noopener noreferrer">
               Facebook ↗
             </a>
 
                         <!-- Instagram -->
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.instagram.com/kyzoww/?hl=en" target="_blank" rel="noopener noreferrer">
               Instagram ↗
             </a>
 
                         <!-- Email -->
-                        <a href="mailto:your.email@example.com">
+                        <a href="mailto:kimrainier7@gmail.com">
               Email ↗
             </a>
 
@@ -2536,6 +2650,58 @@
             element.textContent =
                 new Date().getFullYear();
         });
+
+
+        /* =========================================================
+           PRELOADER
+           Runs a quick counted progress fill, then wipes the
+           welcome screen away to reveal the site.
+           ========================================================= */
+
+        (function runPreloader() {
+
+            const preloader = document.getElementById("preloader");
+            const barFill = document.getElementById("preloaderBarFill");
+            const countLabel = document.getElementById("preloaderCount");
+
+            if (!preloader) return;
+
+            const prefersReducedMotion =
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            if (prefersReducedMotion) {
+                document.body.classList.remove("loading");
+                preloader.remove();
+                return;
+            }
+
+            let progress = 0;
+
+            const interval = setInterval(() => {
+
+                progress += Math.random() * 18 + 6;
+
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+
+                    setTimeout(() => {
+                        preloader.classList.add("hidden");
+                        document.body.classList.remove("loading");
+
+                        preloader.addEventListener("transitionend", () => {
+                            preloader.remove();
+                        }, { once: true });
+
+                    }, 250);
+                }
+
+                barFill.style.width = progress + "%";
+                countLabel.textContent = Math.floor(progress) + "%";
+
+            }, 140);
+
+        })();
     </script>
 
 </body>
